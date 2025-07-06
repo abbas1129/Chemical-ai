@@ -222,11 +222,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Google Gemini Integration for Image Analysis"
-    - "Product Analysis API Endpoint"
-    - "Health Assessment Logic"
     - "Image Upload Interface"
     - "Product Analysis Results Display"
+    - "Responsive UI Design"
+    - "Pricing Display"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
