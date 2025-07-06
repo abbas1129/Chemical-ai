@@ -9,6 +9,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 code {
@@ -16,33 +23,171 @@ code {
     monospace;
 }
 
-/* Custom styles */
-.container {
-  max-width: 1200px;
+/* PWA Specific Styles */
+html {
+  height: 100%;
+  overflow-x: hidden;
 }
 
-.prose {
-  max-width: none;
+body {
+  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
-.animate-spin {
-  animation: spin 1s linear infinite;
+#root {
+  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+/* Mobile-First Button Styles */
+.btn-camera {
+  @apply px-6 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95;
+}
+
+.btn-gallery {
+  @apply px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95;
+}
+
+.btn-analyze {
+  @apply px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95;
+}
+
+.btn-premium {
+  @apply px-8 py-4 bg-white text-purple-600 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95;
+}
+
+/* Enhanced Card Styles */
+.card {
+  @apply bg-white rounded-2xl shadow-xl p-6 backdrop-blur-sm;
+}
+
+.card-gradient {
+  @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl p-6 backdrop-blur-sm;
+}
+
+/* Health Score Animations */
+.health-score-circle {
+  animation: scaleIn 0.8s ease-out;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
-/* Responsive design */
+/* Ingredient List Animations */
+.ingredient-item {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Loading Animation */
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+/* Touch-Friendly Interactions */
+button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Safe Area Insets for Mobile */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Camera Specific Styles */
+.camera-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: black;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Backdrop Blur Support */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+@supports not (backdrop-filter: blur(4px)) {
+  .backdrop-blur-sm {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Enhanced Responsive Design */
 @media (max-width: 768px) {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+  
+  .text-3xl {
+    font-size: 2rem;
   }
   
   .text-4xl {
@@ -52,83 +197,127 @@ code {
   .text-6xl {
     font-size: 3rem;
   }
+  
+  /* Mobile-specific button adjustments */
+  .btn-camera,
+  .btn-gallery,
+  .btn-analyze {
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  /* Enhanced touch targets */
+  button {
+    min-height: 48px;
+    min-width: 48px;
+  }
 }
 
-/* Custom components */
-.health-score-circle {
-  background: conic-gradient(
-    from 0deg,
-    #ef4444 0deg 72deg,
-    #f97316 72deg 144deg,
-    #eab308 144deg 216deg,
-    #22c55e 216deg 360deg
-  );
-  border-radius: 50%;
-  padding: 3px;
+/* Extra small devices */
+@media (max-width: 480px) {
+  .text-3xl {
+    font-size: 1.75rem;
+  }
+  
+  .card,
+  .card-gradient {
+    padding: 1rem;
+  }
+  
+  .grid {
+    gap: 1rem;
+  }
 }
 
-.health-score-inner {
-  background: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+/* Landscape mobile devices */
+@media (orientation: landscape) and (max-height: 600px) {
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
+  .py-6 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
 }
 
-/* Button hover effects */
-.btn-primary {
-  @apply px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors;
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .shadow-xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
 }
 
-.btn-secondary {
-  @apply px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors;
+/* Focus states for accessibility */
+button:focus,
+input:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
-.btn-success {
-  @apply px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors;
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-/* Card styles */
-.card {
-  @apply bg-white rounded-lg shadow-lg p-6;
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+  
+  .bg-white {
+    background-color: #2d2d2d;
+  }
+  
+  .text-gray-800 {
+    color: #ffffff;
+  }
+  
+  .text-gray-600 {
+    color: #cccccc;
+  }
 }
 
-.card-header {
-  @apply text-xl font-bold text-gray-800 mb-4;
+/* Print styles */
+@media print {
+  .camera-container,
+  .btn-camera,
+  .btn-gallery,
+  .btn-analyze,
+  .btn-premium {
+    display: none !important;
+  }
 }
 
-/* Alert styles */
-.alert-error {
-  @apply p-4 bg-red-100 border border-red-300 rounded-lg text-red-700;
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
 }
 
-.alert-warning {
-  @apply p-4 bg-yellow-100 border border-yellow-300 rounded-lg text-yellow-700;
+/* Animation delays for staggered effects */
+.ingredient-item:nth-child(1) { animation-delay: 0.1s; }
+.ingredient-item:nth-child(2) { animation-delay: 0.2s; }
+.ingredient-item:nth-child(3) { animation-delay: 0.3s; }
+.ingredient-item:nth-child(4) { animation-delay: 0.4s; }
+.ingredient-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* Haptic feedback simulation */
+.btn-analyze:active,
+.btn-camera:active,
+.btn-gallery:active {
+  animation: vibrate 0.1s ease-in-out;
 }
 
-.alert-success {
-  @apply p-4 bg-green-100 border border-green-300 rounded-lg text-green-700;
-}
-
-/* Tag styles */
-.tag {
-  @apply px-3 py-1 rounded-full text-sm font-medium;
-}
-
-.tag-blue {
-  @apply bg-blue-100 text-blue-800;
-}
-
-.tag-red {
-  @apply bg-red-100 text-red-800;
-}
-
-.tag-orange {
-  @apply bg-orange-100 text-orange-800;
-}
-
-.tag-green {
-  @apply bg-green-100 text-green-800;
+@keyframes vibrate {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
 }
